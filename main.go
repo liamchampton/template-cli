@@ -1,7 +1,11 @@
+/*
+Copyright © 2020 Liam Hampton liam.hampton@hotmail.co.uk
+
+*/
 package main
 
-import "fmt"
+import "github.com/template-cli/cmd"
 
 func main() {
-	fmt.Println("Hello, World")
+	cmd.Execute()
 }
