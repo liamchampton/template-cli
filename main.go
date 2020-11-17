@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Liam Hampton liam.hampton@hotmail.co.uk
 
 */
 package main
