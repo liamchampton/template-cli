@@ -16,36 +16,30 @@ limitations under the License.
 package cmd
 
 import (
-	"errors"
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 )
 
-var ErrNoSubCommand = errors.New("Sub-command expected - use `create -h` to see an example of the expected input")
-
-// createCmd represents the create command
-var createCmd = &cobra.Command{
-	Use:     "create",
-	Short:   "A brief description of your command",
-	Example: "create golang",
+// golangCmd represents the golang command
+var golangCmd = &cobra.Command{
+	Use:   "golang",
+	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(ErrNoSubCommand)
-		os.Exit(1)
+		fmt.Println("golang called")
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(createCmd)
+	createCmd.AddCommand(golangCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// createCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// golangCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// createCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// golangCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
