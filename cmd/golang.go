@@ -19,13 +19,14 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/user"
 
 	"github.com/spf13/cobra"
 	"github.com/template-cli/pkg/golang"
 )
 
 var ErrGoNotInstalled = errors.New("Golang not installed")
-var ErrGoPathDoesNotExist = errors.New("$HOME/go/src/github.com does not exist")
+var ErrGoPathDoesNotExist = errors.New("expected go path does not exist on the system")
 
 // golangCmd represents the golang command
 var golangCmd = &cobra.Command{
@@ -34,6 +35,12 @@ var golangCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Checking for go installation")
 
+		// Get User
+		user, err := user.Current()
+		if err != nil {
+			fmt.Println(err)
+		}
+
 		installed, err := golang.CheckInstallation()
 		if err != nil {
 			fmt.Println(ErrGoNotInstalled)
@@ -41,14 +48,16 @@ var golangCmd = &cobra.Command{
 		}
 
 		if installed == true {
+
 			// check for typical file structure ~/go/src/github.com
 			fmt.Println("Checking expected golang file structure ~/go/src/github.com exists on the system")
 
-			if _, err := os.Stat("/Users/liams/go/src/github.com/"); !os.IsNotExist(err) {
+			if _, err := os.Stat(user.HomeDir + "/go/src/github.com/"); !os.IsNotExist(err) {
 				fmt.Println("path exists\ncreating new project directory")
 
-				if _, err := os.Stat("/Users/liam/Desktop/testdir"); os.IsNotExist(err) {
-					os.Mkdir("/Users/liam/Desktop/testdir", 0700)
+				if _, err := os.Stat(user.HomeDir + "Desktop/testdir"); os.IsNotExist(err) {
+					//os.Mkdir("/Users/liam/Desktop/testdir", 0700)
+					fmt.Println("Making new directory foo bar (test comment)")
 				}
 
 			} else {
