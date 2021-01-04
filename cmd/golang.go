@@ -79,7 +79,7 @@ func init() {
 	createCmd.AddCommand(golangCmd)
 
 	createCmd.Flags().StringVarP(&Name, "project-name", "n", "", "Name of new project")
-	rootCmd.MarkFlagRequired("project-name")
+	createCmd.MarkFlagRequired("project-name")
 
 	// Here you will define your flags and configuration settings.
 
