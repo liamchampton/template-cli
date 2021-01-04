@@ -16,17 +16,58 @@ limitations under the License.
 package cmd
 
 import (
+	"errors"
 	"fmt"
+	"os"
+	"os/user"
 
 	"github.com/spf13/cobra"
+	"github.com/template-cli/pkg/golang"
 )
+
+var ErrGoNotInstalled = errors.New("Golang not installed")
+var ErrGoPathDoesNotExist = errors.New("expected go path does not exist on the system")
 
 // golangCmd represents the golang command
 var golangCmd = &cobra.Command{
 	Use:   "golang",
 	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("golang called")
+		fmt.Println("Checking for go installation")
+
+		// Get User
+		user, err := user.Current()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		installed, err := golang.CheckInstallation()
+		if err != nil {
+			fmt.Println(ErrGoNotInstalled)
+			os.Exit(1)
+		}
+
+		if installed == true {
+
+			// check for typical file structure ~/go/src/github.com
+			fmt.Println("Checking expected golang file structure ~/go/src/github.com exists on the system")
+
+			if _, err := os.Stat(user.HomeDir + "/go/src/github.com/"); !os.IsNotExist(err) {
+				fmt.Println("path exists\ncreating new project directory")
+
+				if _, err := os.Stat(user.HomeDir + "Desktop/testdir"); os.IsNotExist(err) {
+					fmt.Println("Making new directory foo bar (test comment)")
+				}
+
+			} else {
+				fmt.Println(ErrGoPathDoesNotExist)
+				os.Exit(1)
+			}
+
+			// if file structure exists then create a new directory
+
+			// inside directory clone the template code from github
+		}
 	},
 }
 
