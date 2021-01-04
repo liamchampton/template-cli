@@ -29,6 +29,7 @@ var ErrGoNotInstalled = errors.New("Golang not installed")
 var ErrGoPathDoesNotExist = errors.New("expected go path does not exist on the system")
 
 // golangCmd represents the golang command
+var Name string
 var golangCmd = &cobra.Command{
 	Use:   "golang",
 	Short: "A brief description of your command",
@@ -55,9 +56,12 @@ var golangCmd = &cobra.Command{
 			if _, err := os.Stat(user.HomeDir + "/go/src/github.com/"); !os.IsNotExist(err) {
 				fmt.Println("path exists\ncreating new project directory")
 
-				if _, err := os.Stat(user.HomeDir + "Desktop/testdir"); os.IsNotExist(err) {
-					fmt.Println("Making new directory foo bar (test comment)")
-				}
+				// if _, err := os.Stat(user.HomeDir + "Desktop/testdir"); os.IsNotExist(err) {
+				// 	//os.Mkdir("/Users/liam/Desktop/testdir", 0700)
+				// 	fmt.Println("Making new directory foo bar (test comment)")
+				// }
+
+				os.Mkdir(user.HomeDir+"/go/src/github.com/"+args[1], 0700)
 
 			} else {
 				fmt.Println(ErrGoPathDoesNotExist)
@@ -73,6 +77,9 @@ var golangCmd = &cobra.Command{
 
 func init() {
 	createCmd.AddCommand(golangCmd)
+
+	createCmd.Flags().StringVarP(&Name, "project-name", "n", "", "Name of new project")
+	rootCmd.MarkFlagRequired("project-name")
 
 	// Here you will define your flags and configuration settings.
 
