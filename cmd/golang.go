@@ -56,7 +56,6 @@ var golangCmd = &cobra.Command{
 				fmt.Println("path exists\ncreating new project directory")
 
 				if _, err := os.Stat(user.HomeDir + "Desktop/testdir"); os.IsNotExist(err) {
-					//os.Mkdir("/Users/liam/Desktop/testdir", 0700)
 					fmt.Println("Making new directory foo bar (test comment)")
 				}
 
